@@ -1,7 +1,7 @@
 export function pickByRange(config) {
-    return function (text = '') {
+    return function (limit) {
         const sortedRanges = Object.keys(config).sort((a, b) => a - b);
-        const range = sortedRanges.filter(range => text.length < range)[0];
+        const range = sortedRanges.filter(range => limit < range)[0];
         let validRange;
 
         if (range) {

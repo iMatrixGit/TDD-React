@@ -25,7 +25,7 @@ describe('fontSizePicker', () => {
             '150': 12
         };
         const text = `Simple text with lower than 50 symbols.`;
-        const received = pickByRange(config)(text);
+        const received = pickByRange(config)(text.length);
         const expected = 16;
 
         expect(received).toEqual(expected);

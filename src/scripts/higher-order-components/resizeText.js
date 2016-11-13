@@ -5,8 +5,9 @@ export default options => ComposedComponent => {
     class ResizeText extends Component {
         getFontSize(text) {
             const pickFontSizeByRange = pickByRange(options);
+            const limit = text ? text.length : 0;
 
-            return pickFontSizeByRange(text);
+            return pickFontSizeByRange(limit);
         }
 
         render() {
