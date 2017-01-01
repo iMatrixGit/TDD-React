@@ -1,7 +1,8 @@
 import Immutable from 'immutable';
 
 export const initialState = Immutable.Map({
-    spotsById: Immutable.Map()
+    spotsById: Immutable.Map(),
+    likedBy: Immutable.List(['j.doe'])
 });
 
 export default function (state = initialState, action) {
@@ -14,6 +15,22 @@ export default function (state = initialState, action) {
                     state = state.setIn(['spotsById', spot.id], spot);
                 });
             }
+            break;
+        case 'LIKE':
+            {
+                const { actor } = action.payload;
+
+                state = state.set('likedBy', state.get('likedBy').push(actor));
+            }
+            break;
+        case 'UNLIKE':
+        {
+            const { actor } = action.payload;
+            const indexOfActor = state.get('likedBy').indexOf(actor);
+
+            state = state.deleteIn(['likedBy', indexOfActor]);
+        }
+            break;
             break;
         default:
            break;

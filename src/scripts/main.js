@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 import { render } from 'react-dom';
+import { createStore, bindActionCreators } from 'redux';
+import { Provider, connect } from 'react-redux';
 import {
     BrowserRouter,
     Match,
@@ -7,19 +9,45 @@ import {
     Link,
     Redirect,
 } from 'react-router';
+import reducer from './reducers/spots';
+import { like, unlike } from './actions/actions';
+import Likes from './components/Likes';
 
 require('../styles/style.css');
 
+const store = createStore(reducer);
+const loggedUser = 'john.doe';
+
 class Home extends React.Component {
     render() {
-        console.log(this.context);
-        console.log(this.props);
+        const { likedBy, like, unlike } = this.props;
+        const likesCount = likedBy.size;
+        const isLikedByUser = likedBy.contains(loggedUser);
 
         return (
-            <div>Home</div>
+            <div>
+                <h3>Home</h3>
+                <Likes
+                    count={likesCount}
+                    isLikedByUser={isLikedByUser}
+                    onLike={like}
+                    onUnlike={unlike}
+                    shouldRenderLikesCount={likesCount > 0}
+                />
+            </div>
         );
     }
 }
+
+const ConnectedHome = connect(
+    state => ({
+        likedBy: state.get('likedBy')
+    }),
+    dispatch => bindActionCreators({
+        like,
+        unlike
+    }, dispatch)
+)(Home);
 
 Home.contextTypes = {
     router: PropTypes.object
@@ -46,7 +74,6 @@ const Contacts = () => <div>Contacts</div>;
 const Topics = ({ pathname, pattern }) => (
     <div>
         <h2>Topics</h2>
-
         <ul>
             <li>
                 <Link to={`${pathname}/rendering`}>Rendering</Link>
@@ -112,10 +139,8 @@ const App = () => (
                     </Link>
                 </li>
             </ul>
-
             <hr />
-
-            <Match exactly pattern="/" component={Home} />
+            <Match exactly pattern="/" component={ConnectedHome} />
             <Match pattern="/about" component={About} />
             <Match pattern="/topics" component={Topics} />
             <Match pattern="/contacts" component={Contacts} />
@@ -130,6 +155,8 @@ const App = () => (
 );
 
 render(
-    <App />,
+    <Provider store={store}>
+        <App />
+    </Provider>,
     document.getElementById('app')
 );

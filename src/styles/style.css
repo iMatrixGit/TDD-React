@@ -1,3 +1,28 @@
 body {
     border: 2px solid red;
 }
+
+.likes {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 15px;
+    height: 15px;
+}
+
+.like-button {
+    position: absolute;
+    color: #999999;
+    cursor: pointer;
+    user-select: none;
+    transition: transform .2s ease-in-out
+}
+
+.like-button.liked {
+    color: #f11660;
+}
+
+.like-button.liked, .has-likes .like-button {
+    transform: translateY(-15px);
+}

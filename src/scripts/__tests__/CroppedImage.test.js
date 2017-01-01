@@ -48,8 +48,7 @@ const imageProps = {
     shouldDisplayLoader: mockedProps.shouldDisplayLoader
 };
 describe('<CroppedImage />', () => {
-    it();
-    /*it('should render', () => {
+    it('should render', () => {
         const wrapper = shallow(<CroppedImage {...mockedProps} />);
         expect(wrapper).toBeDefined();
     });
@@ -123,5 +122,5 @@ describe('<CroppedImage />', () => {
         };
         const wrapper = shallow(<CroppedImage {...props} />);
         expect(wrapper.find('Image').props()).toEqual(expected);
-    });*/
+    });
 });

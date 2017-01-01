@@ -17,3 +17,9 @@ export function pickByRange(config) {
         return config[validRange];
     }
 }
+
+export const getNameInitials = (fullName) =>
+    fullName
+        .split(' ')
+        .filter((name, index, arr) => index === 0 || index === arr.length - 1)
+        .map(name => name.slice(0, 1));
